@@ -84,18 +84,18 @@ const GameController = function (name1,marker1,name2,marker2)
     {
         let currentPlayer = "";
         if(player1.active)
-            currentPlayer = player1;
+            currentPlayer = player1.name;
         else
-            currentPlayer = player2;
+            currentPlayer = player2.name;
         return currentPlayer;
     }
     function getWinner()
     {
         let wonPlayer = "";
         if(player1.win)
-            wonPlayer = player1;
+            wonPlayer = player1.name;
         else if(player2.win)
-            wonPlayer = player2;
+            wonPlayer = player2.name;
         else
             wonPlayer = "draw";
         return wonPlayer;
@@ -131,6 +131,7 @@ const GameController = function (name1,marker1,name2,marker2)
     return { playerTurn,getCurrentPlayer,getWinner,resetGame };
 };
 
+/*
 const game = GameController("p1","x","p2","o");
 game.playerTurn(1);
 game.playerTurn(1);
@@ -139,4 +140,48 @@ game.playerTurn(4);
 game.playerTurn(2);
 game.playerTurn(7);
 console.log(gameboard.getBoard());
+*/
+const turn = document.querySelector(".turn");
+const reset = document.querySelector(".reset");
+const cells = document.querySelectorAll(".cell");
+
+cells.forEach((cell) => {
+    const index = Number(cell.dataset.index);
+    cell.addEventListener('click',() => {
+        game.playerTurn(index);
+        display();
+    })
+});
+
+function display()
+{
+    let board = gameboard.getBoard();
+    cells.forEach((cell) => {
+        const index = Number(cell.dataset.index);
+        cell.textContent = board[index];
+    })
+    if(game.getWinner())
+    {
+        if(game.getWinner() === "draw" )
+        {
+            turn.textContent = "The game is a draw!";
+        }
+        else
+        {
+            turn.textContent = "The winner is " + game.getWinner() + "!"; 
+        }
+    }
+    else
+    {
+        turn.textContent = "Player " + game.getCurrentPlayer() + "'s turn."
+    }
+}
+
+reset.addEventListener('click',() =>{
+    game.resetGame();
+    cells.forEach((cell) => {
+        cell.textContent = "";
+    })
+    display();
+})
 
