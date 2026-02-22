@@ -131,16 +131,6 @@ const GameController = function (name1,marker1,name2,marker2)
     return { playerTurn,getCurrentPlayer,getWinner,resetGame };
 };
 
-/*
-const game = GameController("p1","x","p2","o");
-game.playerTurn(1);
-game.playerTurn(1);
-game.playerTurn(0);
-game.playerTurn(4);
-game.playerTurn(2);
-game.playerTurn(7);
-console.log(gameboard.getBoard());
-*/
 const turn = document.querySelector(".turn");
 const reset = document.querySelector(".reset");
 const cells = document.querySelectorAll(".cell");
@@ -184,4 +174,8 @@ reset.addEventListener('click',() =>{
     })
     display();
 })
+
+const game = GameController("Player 1", "x", "Player 2", "o");
+
+display();
 
